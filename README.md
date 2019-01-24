@@ -1,7 +1,6 @@
-# ryzen-mobile-dsdt
+# Ryzen Mobile DSDT
 
-This repository hosts a collection of Differentiated System Description Tables (DSDTs) from various Ryzen Mobile Laptops.
+This repository is to host modification which I have attempted to make to the DSDT (ACPI Table) of the HP db0996na. 
+Specifically, modifications involve the use of the DPTCi function defined in the AMD AGESA specification which allows for the modification of values set in the BIOS.
 
-## How do I use this?
-Both DSL (uncompiled) and AML (compiled) DSDT files are uploaded for each laptop. Edits have been made by various users in order to
-make their respective laptops perform better and these changes vary from laptop to laptop. Changes are noted in the README for each laptop folder.
+## What is the background for this?
