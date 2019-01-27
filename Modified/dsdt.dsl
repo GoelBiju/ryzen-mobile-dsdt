@@ -1174,34 +1174,54 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
             Name (_UID, One)
             Name (_BBN, Zero)
             Name (_ADR, Zero)
-            Method (DPTC, 2, NotSerialized)
-            {
-                Name (XX11, Buffer (0x07) {})
-                CreateWordField (XX11, Zero, SSZE)
-                CreateByteField (XX11, 0x02, SMUF)
-                CreateDWordField (XX11, 0x03, SMUD)
-                Store (0x07, SSZE)
-                Store (0x55, P80H)
-                Store (Arg0, SMUF)
-                Store (Arg1, SMUD)
-                ALIB (0x0C, XX11)
-            }
-            Method (DPTP, 3, NotSerialized)
-            {
-                Name (XX11, Buffer (0x0B) {})
-                CreateWordField (XX11, Zero, SSZE)
-                CreateByteField (XX11, 0x02, SMUF)
-                CreateDWordField (XX11, 0x03, SMUD)
-                CreateDWordField (XX11, 0x07, SMU2)
-                Store (0x0B, SSZE)
-                Store (0x56, P80H)
-                Store (Arg0, SMUF)
-                Store (Arg1, SMUD)
-                Store (Arg2, SMU2)
-                ALIB (0x0C, XX11)
-            }
+            //Method (DPTC, 2, NotSerialized)
+            //{
+            //    Name (XX11, Buffer (0x07) {})
+            //    CreateWordField (XX11, Zero, SSZE)
+            //    CreateByteField (XX11, 0x02, SMUF)
+            //    CreateDWordField (XX11, 0x03, SMUD)
+            //    Store (0x07, SSZE)
+            //    Store (0x55, P80H)
+            //    Store (Arg0, SMUF)
+            //    Store (Arg1, SMUD)
+            //    ALIB (0x0C, XX11)
+            //}
+            //Method (DPTP, 3, NotSerialized)
+            //{
+            //    Name (XX11, Buffer (0x0B) {})
+            //    CreateWordField (XX11, Zero, SSZE)
+            //    CreateByteField (XX11, 0x02, SMUF)
+            //    CreateDWordField (XX11, 0x03, SMUD)
+            //    CreateDWordField (XX11, 0x07, SMU2)
+            //    Store (0x0B, SSZE)
+            //    Store (0x56, P80H)
+            //   Store (Arg0, SMUF)
+            //    Store (Arg1, SMUD)
+            //    Store (Arg2, SMU2)
+            //    ALIB (0x0C, XX11)
+            //}
             Method (_INI, 0, NotSerialized)
             {
+                //Name (XX11, Buffer (0x07) {})
+                //CreateWordField (XX11, Zero, SSZE)
+                //CreateByteField (XX11, 0x02, SMUF)
+                //CreateDWordField (XX11, 0x03, SMUD)
+                //Store (0x07, SSZE)
+                //Store (0x05, SMUF)
+                //Store (0x61A8, SMUD)
+                //ALIB (0x0C, XX11)
+                //Store (0x07, SSZE)
+                //Store (0x06, SMUF)
+                //Store (0x61A8, SMUD)
+                //ALIB (0x0C, XX11)
+                //Store (0x07, SSZE)
+                //Store (0x07, SMUF)
+                //Store (0x61A8, SMUD)
+                //ALIB (0x0C, XX11)
+                //Store (0x07, SSZE)
+                //Store (0x03, SMUF)
+                //Store (0x55, SMUD)
+                //ALIB (0x0C, XX11)
                 If (LNotEqual (GPIC, Zero))
                 {
                     DSPI ()
@@ -8956,6 +8976,23 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
             Store (Zero, ^^^^WMID.WED1)
             Notify (WMID, 0x80)
             Store (One, PWRS)
+            
+            Name (XX11, Buffer (0x07) {})
+            CreateWordField (XX11, Zero, SSZE)
+            CreateByteField (XX11, 0x02, SMUF)
+            CreateDWordField (XX11, 0x03, SMUD)
+            Store (0x07, SSZE)
+            Store (0x05, SMUF)
+            Store (0x4E20, SMUD)
+            ALIB (0x0C, XX11)
+            Store (0x07, SSZE)
+            Store (0x06, SMUF)
+            Store (0x61A8, SMUD)
+            ALIB (0x0C, XX11)
+            Store (0x07, SSZE)
+            Store (0x07, SMUF)
+            Store (0x61A8, SMUD)
+            ALIB (0x0C, XX11)
         }
         Method (_Q38, 0, NotSerialized)
         {
@@ -8965,6 +9002,23 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
             Sleep (0x03E8)
             Notify (BAT1, 0x80)
             Store (Zero, PWRS)
+            
+            Name (XX11, Buffer (0x07) {})
+            CreateWordField (XX11, Zero, SSZE)
+            CreateByteField (XX11, 0x02, SMUF)
+            CreateDWordField (XX11, 0x03, SMUD)
+            Store (0x07, SSZE)
+            Store (0x05, SMUF)
+            Store (0x3A98, SMUD)
+            ALIB (0x0C, XX11)
+            Store (0x07, SSZE)
+            Store (0x06, SMUF)
+            Store (0x61A8, SMUD)
+            ALIB (0x0C, XX11)
+            Store (0x07, SSZE)
+            Store (0x07, SMUF)
+            Store (0x4E20, SMUD)
+            ALIB (0x0C, XX11)
         }
         Method (_Q40, 0, NotSerialized)
         {
@@ -9045,17 +9099,17 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                 Notify (\_TZ.TSZ2, 0x80)
             }
         }
-        Method (_Q4F, 0, NotSerialized)
-        {
-            Store (0x4F, P80H)
-            DPTC (0x06, 0x3A98)
-            DPTC (0x07, 0x3A98)
-        }
-        Method (_Q50, 0, NotSerialized)
-        {
-            Store (0x50, P80H)
-            DPTC (0x06, 0x61A8)
-            DPTC (0x07, 0x4E20)
-        }
+        //Method (_Q4F, 0, NotSerialized)
+        //{
+        //    Store (0x4F, P80H)
+        //    DPTC (0x06, 0x3A98)
+        //    DPTC (0x07, 0x3A98)
+        //}
+        //Method (_Q50, 0, NotSerialized)
+        //{
+        //    Store (0x50, P80H)
+        //    DPTC (0x06, 0x61A8)
+        //    DPTC (0x07, 0x4E20)
+        //}
     }
 }
