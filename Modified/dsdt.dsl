@@ -8771,12 +8771,50 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                     Store (0xAC, P80H)
                     AFN4 (One)
                     Store (Zero, ACST)
+                    
+                    // Power Source is AC Adapter. 
+                    // We can set the STAPM values higher.
+                    // TODO: Move this to a common function - similar to DPTC
+                    Name (ACVA, Buffer (0x07) {})
+                    CreateWordField (ACVA, Zero, ACSZ)
+                    CreateByteField (ACVA, 0x02, ACSF)
+                    CreateDWordField (ACVA, 0x03, ACSD)
+                    Store (0x07, ACSZ)
+                    Store (0x05, ACSF)
+                    Store (0x4E20, ACSD)
+                    ALIB (0x0C, ACVA)
+                    Store (0x07, ACSZ)
+                    Store (0x06, ACSF)
+                    Store (0x61A8, ACSD)
+                    ALIB (0x0C, ACVA)
+                    Store (0x07, ACSZ)
+                    Store (0x07, ACSF)
+                    Store (0x61A8, ACSD)
+                    ALIB (0x0C, ACVA)
                 }
                 Else
                 {
                     Store (0xDC, P80H)
                     AFN4 (0x02)
                     Store (One, ACST)
+                    
+                    // Power Source is the battery.
+                    Name (DCVA, Buffer (0x07) {})
+                    CreateWordField (DCVA, Zero, DCSZ)
+                    CreateByteField (DCVA, 0x02, DCSF)
+                    CreateDWordField (DCVA, 0x03, DCSD)
+                    Store (0x07, DCSZ)
+                    Store (0x05, DCSF)
+                    Store (0x3A98, DCSD)
+                    ALIB (0x0C, DCVA)
+                    Store (0x07, DCSZ)
+                    Store (0x06, DCSF)
+                    Store (0x61A8, DCSD)
+                    ALIB (0x0C, DCVA)
+                    Store (0x07, DCSZ)
+                    Store (0x07, DCSF)
+                    Store (0x4E20, DCSD)
+                    ALIB (0x0C, DCVA)
                 }
                 ALIB (One, XX00)
                 Return (Local0)
@@ -8967,6 +9005,8 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         }
         Method (_Q37, 0, NotSerialized)
         {
+            // When power source is changed to adapter, notifies ACAD object (with _PSR method)
+            // and raise the STAPM values.
             Store (0x37, P80H)
             Store ("=====QUERY_37=====", Debug)
             Notify (ACAD, 0x80)
@@ -8976,7 +9016,6 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
             Store (Zero, ^^^^WMID.WED1)
             Notify (WMID, 0x80)
             Store (One, PWRS)
-            
             Name (XX11, Buffer (0x07) {})
             CreateWordField (XX11, Zero, SSZE)
             CreateByteField (XX11, 0x02, SMUF)
@@ -8996,13 +9035,13 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         }
         Method (_Q38, 0, NotSerialized)
         {
+            // When power source is batter, notifies ACAD object and lowers STAPM values.
             Store (0x38, P80H)
             Store ("=====QUERY_38=====", Debug)
             Notify (ACAD, 0x80)
             Sleep (0x03E8)
             Notify (BAT1, 0x80)
             Store (Zero, PWRS)
-            
             Name (XX11, Buffer (0x07) {})
             CreateWordField (XX11, Zero, SSZE)
             CreateByteField (XX11, 0x02, SMUF)
