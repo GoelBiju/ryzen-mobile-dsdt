@@ -813,7 +813,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
         BSTH,   8, 
         PRDT,   8, 
         PSSE,   8, 
-        CPTP,   8, 
+        CPTP,   0, 
         SAID,   8, 
         FANE,   1, 
         CPUO,   1, 
@@ -977,10 +977,10 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
         SDTM,   8, 
         FSSN,   4, 
         FANU,   4, 
-        PCVL,   6, 
+        PCVL,   0, 
         SWTO,   1, 
         TTHR,   0, 
-        TTHM,   1, 
+        TTHM,   0, 
         THTL,   0, 
         CTDP,   0, 
         NPST,   5, 
@@ -1142,6 +1142,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                         \_SB.PCI0.NAPE ()
                     }
                 }
+                \_SB.PCI0.LPC0.EC0.STDP()
             }
             If (LEqual (Arg0, 0x03))
             {
@@ -7877,6 +7878,8 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                     Store (0x03, NPST)
                     Store (PSSP, PSED)
                     Notify (LID, 0x80)
+                    // Call to set TDP values.
+                    STDP();
                 }
             }
 //             Method (CMDW, 2, NotSerialized)
@@ -7925,7 +7928,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 BSTH,   8, 
                 PRDT,   8, 
                 PSSE,   8, 
-                CPTP,   8, 
+                CPTP,   0, 
                 SAID,   8, 
                 FANE,   1, 
                 CPUO,   1, 
@@ -8089,10 +8092,10 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 SDTM,   8, 
                 FSSN,   4, 
                 FANU,   4, 
-                PCVL,   6, 
+                PCVL,   0, 
                 SWTO,   1, 
                 TTHR,   0, 
-                TTHM,   1, 
+                TTHM,   0, 
                 THTL,   0, 
                 CTDP,   0, 
                 NPST,   5, 
@@ -8867,21 +8870,20 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                     Store (0xAC, P80H)
                     AFN4 (One)
                     Store (Zero, ACST)
-                    DPTC (0x05, 0x61A8)
-                    DPTC (0x06, 0x61A8)
-                    DPTC (0x07, 0x61A8)
-                    DPTC (0x03, 0x5A)
-                    DPTC (0x0F, 0xEA20)
+                    //DPTC (0x05, 0x61A8)
+                    //DPTC (0x06, 0x61A8)
+                    //DPTC (0x07, 0x61A8)
+                    //DPTC (0x03, 0x5A)
                 }
                 Else
                 {
                     Store (0xDC, P80H)
                     AFN4 (0x02)
                     Store (One, ACST)
-                    DPTC (0x05, 0x3A98)
-                    DPTC (0x06, 0x61A8)
-                    DPTC (0x07, 0x4E20)
-                    DPTC (0x03, 0x50)
+                    //DPTC (0x05, 0x3A98)
+                    //DPTC (0x06, 0x61A8)
+                    //DPTC (0x07, 0x4E20)
+                    //DPTC (0x03, 0x50)
                 }
                 ALIB (One, XX00)
                 Return (Local0)
@@ -9029,16 +9031,16 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Notify (LID, 0x80)
             }
         }
-//         Method (_Q1D, 0, NotSerialized)
-//         {
-//             Store (0x1D, P80H)
-//             PCLK ()
-//         }
-//         Method (_Q1E, 0, NotSerialized)
-//         {
-//             Store (0x1E, P80H)
-//             ^^^GPP0.VGA.AFN2 (DTCL, 0x02)
-//         }
+        Method (_Q1D, 0, NotSerialized)
+        {
+            Store (0x1D, P80H)
+            PCLK ()
+        }
+        Method (_Q1E, 0, NotSerialized)
+        {
+            Store (0x1E, P80H)
+            ^^^GPP0.VGA.AFN2 (DTCL, 0x02)
+        }
         Method (_Q24, 0, NotSerialized)
         {
             Store (0x24, P80H)
@@ -9144,8 +9146,8 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
 //             Store (One, ECSF)
 //             Store (One, CFBE)
 //         }
-        Method (_Q4D, 0, NotSerialized)
-        {
+          Method (_Q4D, 0, NotSerialized)
+          {
             Store (0x4D, P80H)
             Store ("=====QUERY_4D=====", Debug)
             If (BMNC)
@@ -9182,5 +9184,100 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
 //             DPTC (0x06, 0x61A8)
 //             DPTC (0x07, 0x4E20)
 //         }
-    }
-}
+        Method  (ALIL, 1, NotSerialized)
+        {
+            // INFO: Avoid using the ALIB function to set TDP related values.
+            CreateWordField(Arg0, 0x00, A110)
+            Store(Buffer(0x18){}, Local7)
+            CreateDWordField(Local7, 0x00, A006)
+            CreateDWordField(Local7, 0x04, A007)
+            CreateDWordField(Local7, 0x08, A008)
+            CreateDWordField(Local7, 0x0C, A009)
+            CreateDWordField(Local7, 0x10, A010)
+            CreateDWordField(Local7, 0x14, A011)
+            Store(0x02, Local0)
+            While(LLess(Local0, A110))
+            {
+                Store(DerefOf(Index(Arg0, Local0)), Local1)
+                Increment(Local0)
+                Store(DerefOf(Index(Arg0, Local0)), Local2)
+                Increment(Local0)
+                Or(ShiftLeft(DerefOf(Index(Arg0, Local0)), 0x08), Local2, Local2)
+                Increment(Local0)
+                Or(ShiftLeft(DerefOf(Index(Arg0, Local0)), 0x10), Local2, Local2)
+                Increment(Local0)
+                Or(ShiftLeft(DerefOf(Index(Arg0, Local0)), 0x18), Local2, Local2)
+                Increment(Local0)
+                Store(0x00, A006)
+                Store(0x00, A007)
+                Store(0x00, A008)
+                Store(0x00, A009)
+                Store(0x00, A010)
+                Store(0x00, A011)
+                // Make a general call to A012 to set the SMU values.
+                Store(Local2, A006)
+                A012(Local1, Local7)
+            }
+        }
+        Method (STDP, 0, NotSerialized)
+        {
+                Name (UTDP, Buffer (0x08) {})
+                CreateWordField (UTDP, Zero, M254)
+                CreateByteField (UTDP, 0x02, M255)
+                CreateDWordField (UTDP, 0x03, M256)
+                Store (0x07, M254) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M254 */
+                // Sustained Power Limit (STAPM)
+                Store (0x1A, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x61A8, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // Fast PPT Limit
+                Store (0x1B, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x61A8, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // Slow PPT Limit
+                Store (0x1C, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x61A8, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // Slow PPT Time Constant
+                Store (0x1D, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x0E, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // STAPM Time Constant
+                Store (0x1E, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x60, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // Tctl (Temperature) Max 
+                Store (0x1F, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x55, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // VRM Current Limit
+                //Store (0x20, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0xB3B0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                //ALIL (UTDP)
+                // VRM Soc Current Limit
+                //Store (0x21, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                //ALIL (UTDP)
+                // VRM Maximum Current Limit
+                //Store (0x22, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0xD2F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                //ALIL (UTDP)
+                // VRM Soc Maximum Current Limit
+                //Store (0x23, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                //ALIL (UTDP)
+                // PSI0 Current Limit
+                //Store (0x24, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0xD2F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                //ALIL (UTDP)
+                // PSI0 Soc Current Limit
+                //Store (0x25, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                //ALIL (UTDP)
+                // Prochot Deassertion Ramp Time
+                Store (0x26, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x01, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+           }
+       }
+  }

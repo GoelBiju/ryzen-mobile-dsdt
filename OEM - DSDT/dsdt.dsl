@@ -1,4 +1,4 @@
-DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
+DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
 {
     External (WMID)
     External (AFN4, MethodObj)    // 1 Arguments
@@ -145,6 +145,8 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         Offset (0x2B0), 
             ,   2, 
         SLPS,   2, 
+        Offset (0x36A), 
+        SMIB,   8, 
         Offset (0x3BB), 
             ,   6, 
         PWDE,   1, 
@@ -166,6 +168,11 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         Offset (0x01), 
             ,   2, 
         RTCS,   1
+    }
+    OperationRegion (SSMI, SystemIO, SMIB, 0x02)
+    Field (SSMI, AnyAcc, NoLock, Preserve)
+    {
+        SMIW,   16
     }
     Name (PRWP, Package (0x02)
     {
@@ -208,13 +215,14 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         Store (0x03, BLNK)
         If (LEqual (Arg0, 0x03))
         {
+            Store (0xCA, SMIW)
             Store (One, RSTU)
         }
         Store (PEWS, PEWS)
         Store (One, PWDE)
         Store (Zero, PEWD)
     }
-    OperationRegion (GNVS, SystemMemory, 0xBF75CA98, 0x00000186)
+    OperationRegion (GNVS, SystemMemory, 0xBF77A998, 0x00000186)
     Field (GNVS, AnyAcc, NoLock, Preserve)
     {
         SMIF,   8, 
@@ -289,7 +297,7 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         HML1,   64, 
         HML2,   64
     }
-    OperationRegion (OGNS, SystemMemory, 0xBF75CD18, 0x00000034)
+    OperationRegion (OGNS, SystemMemory, 0xBF77AC98, 0x00000035)
     Field (OGNS, AnyAcc, Lock, Preserve)
     {
         EGPO,   8, 
@@ -340,6 +348,7 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
         RX18,   8, 
         RX19,   8, 
         RX20,   8, 
+        W10S,   8, 
         ECON,   8, 
         OSYS,   16, 
         PSSP,   8
@@ -1133,28 +1142,33 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                         \_SB.PCI0.NAPE ()
                     }
                 }
-            } If (LEqual (Arg0, 0x03))
+            }
+            If (LEqual (Arg0, 0x03))
             {
                 \_SB.S80H (0xE3)
                 Notify (\_SB.LID, 0x80)
                 Store (One, \_SB.PCI0.LPC0.EC0.S3RM)
                 Store (Zero, \_SB.PCI0.LPC0.EC0.UWAK)
-            } If (LEqual (Arg0, 0x04))
+            }
+            If (LEqual (Arg0, 0x04))
             {
                 \_SB.S80H (0xE4)
                 Notify (\_SB.LID, 0x80)
                 Store (One, \_SB.PCI0.LPC0.EC0.S4RM)
-            } If (LEqual (Arg0, 0x05))
+            }
+            If (LEqual (Arg0, 0x05))
             {
                 Notify (\_SB.LID, 0x80)
                 Store (One, \_SB.PCI0.LPC0.EC0.S5RM)
-            } If (LOr (LOr (LEqual (Arg0, 0x03), LEqual (
+            }
+            If (LOr (LOr (LEqual (Arg0, 0x03), LEqual (
                     Arg0, 0x04)), LEqual (Arg0, 0x05)))
             {
                 Store (Zero, \_SB.PCI0.LPC0.EC0.RWAK)
                 Store (One, \_SB.PCI0.LPC0.EC0.ECRD)
                 Store (0x03, \_SB.PCI0.LPC0.EC0.NPST)
-            } MWAK (Arg0)
+            }
+        MWAK (Arg0)
         Return (Zero)
     }
     Scope (_SB)
@@ -1943,7 +1957,7 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                             0x62, 
                             0x64
                         })
-                        Name (UBBL, Package (0x29)
+                        Name (UBBL, Package (0x2E)
                         {
                             Package (0x0B)
                             {
@@ -2518,6 +2532,76 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                                 0x3D, 
                                 0x4A, 
                                 0x64
+                            }, 
+                            Package (0x0B)
+                            {
+                                0x07, 
+                                0x0B, 
+                                0x0F, 
+                                0x13, 
+                                0x1A, 
+                                0x24, 
+                                0x2E, 
+                                0x38, 
+                                0x42, 
+                                0x50, 
+                                0x64
+                            }, 
+                            Package (0x0B)
+                            {
+                                0x06, 
+                                0x0A, 
+                                0x0E, 
+                                0x12, 
+                                0x1A, 
+                                0x23, 
+                                0x2D, 
+                                0x36, 
+                                0x40, 
+                                0x4E, 
+                                0x64
+                            }, 
+                            Package (0x0B)
+                            {
+                                0x08, 
+                                0x0C, 
+                                0x10, 
+                                0x14, 
+                                0x1D, 
+                                0x28, 
+                                0x32, 
+                                0x3C, 
+                                0x48, 
+                                0x51, 
+                                0x64
+                            }, 
+                            Package (0x0B)
+                            {
+                                0x07, 
+                                0x0B, 
+                                0x0F, 
+                                0x13, 
+                                0x19, 
+                                0x24, 
+                                0x2E, 
+                                0x37, 
+                                0x41, 
+                                0x4E, 
+                                0x64
+                            }, 
+                            Package (0x0B)
+                            {
+                                0x06, 
+                                0x0A, 
+                                0x0E, 
+                                0x12, 
+                                0x1A, 
+                                0x24, 
+                                0x2E, 
+                                0x38, 
+                                0x42, 
+                                0x50, 
+                                0x64
                             }
                         })
                         Method (_BCL, 0, NotSerialized)
@@ -2774,20 +2858,55 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                                                                                                                                                                                             }
                                                                                                                                                                                             Else
                                                                                                                                                                                             {
-                                                                                                                                                                                                Store (Package (0x0B)
+                                                                                                                                                                                                If (LEqual (IDPC, 0x05CE))
+                                                                                                                                                                                                {
+                                                                                                                                                                                                    Store (DerefOf (Index (UBBL, 0x29)), Local2)
+                                                                                                                                                                                                }
+                                                                                                                                                                                                Else
+                                                                                                                                                                                                {
+                                                                                                                                                                                                    If (LEqual (IDPC, 0x0817))
                                                                                                                                                                                                     {
-                                                                                                                                                                                                        0x06, 
-                                                                                                                                                                                                        0x0A, 
-                                                                                                                                                                                                        0x14, 
-                                                                                                                                                                                                        0x1E, 
-                                                                                                                                                                                                        0x28, 
-                                                                                                                                                                                                        0x32, 
-                                                                                                                                                                                                        0x3C, 
-                                                                                                                                                                                                        0x46, 
-                                                                                                                                                                                                        0x50, 
-                                                                                                                                                                                                        0x5A, 
-                                                                                                                                                                                                        0x62
-                                                                                                                                                                                                    }, Local2)
+                                                                                                                                                                                                        Store (DerefOf (Index (UBBL, 0x2A)), Local2)
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    Else
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                        If (LEqual (IDPC, 0x15FC))
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            Store (DerefOf (Index (UBBL, 0x2B)), Local2)
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        Else
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            If (LEqual (IDPC, 0x07FF))
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                                Store (DerefOf (Index (UBBL, 0x2C)), Local2)
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                            Else
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                                If (LEqual (IDPC, 0x1502))
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    Store (DerefOf (Index (UBBL, 0x2D)), Local2)
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                                Else
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    Store (Package (0x0B)
+                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                            0x06, 
+                                                                                                                                                                                                                            0x0A, 
+                                                                                                                                                                                                                            0x14, 
+                                                                                                                                                                                                                            0x1E, 
+                                                                                                                                                                                                                            0x28, 
+                                                                                                                                                                                                                            0x32, 
+                                                                                                                                                                                                                            0x3C, 
+                                                                                                                                                                                                                            0x46, 
+                                                                                                                                                                                                                            0x50, 
+                                                                                                                                                                                                                            0x5A, 
+                                                                                                                                                                                                                            0x62
+                                                                                                                                                                                                                        }, Local2)
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                }
                                                                                                                                                                                             }
                                                                                                                                                                                         }
                                                                                                                                                                                     }
@@ -7669,7 +7788,7 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
     }
     Scope (\)
     {
-        OperationRegion (COMP, SystemMemory, 0xBF77A418, 0x0200)
+        OperationRegion (COMP, SystemMemory, 0xBF77AD18, 0x0200)
         Field (COMP, AnyAcc, Lock, Preserve)
         {
             IDMN,   16, 
@@ -8702,10 +8821,7 @@ DefinitionBlock ("DSDT-Original.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x0004000
                     {
                         Divide (Multiply (Local4, ^^EC0.BPV0), 0x03E8, , Local4)
                     }
-                    If (LEqual (^^^^WMID.BRTE, Zero))
-                    {
-                        Store (Ones, Index (PBST, One))
-                    }
+                    If (LEqual (^^^^WMID.BRTE, Zero)) {}
                     Else
                     {
                         Store (Local4, Index (PBST, One))
