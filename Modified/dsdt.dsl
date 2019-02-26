@@ -813,7 +813,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
         BSTH,   8, 
         PRDT,   8, 
         PSSE,   8, 
-        CPTP,   0, 
+        CPTP,   8, 
         SAID,   8, 
         FANE,   1, 
         CPUO,   1, 
@@ -894,11 +894,11 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
         Offset (0xBC2), 
         PRTM,   16, 
         Offset (0xD82), 
-        ECPC,   0, 
-        ECST,   0, 
+        ECPC,   1, 
+        ECST,   1, 
         Offset (0xD8B), 
-        ECMB,   0, 
-        EDTB,   0, 
+        ECMB,   8, 
+        EDTB,   8, 
         Offset (0xD8E)
     }
     OperationRegion (ECMM, SystemMemory, 0xFE0B0000, 0x1000)
@@ -977,12 +977,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
         SDTM,   8, 
         FSSN,   4, 
         FANU,   4, 
-        PCVL,   0, 
+        PCVL,   6, 
         SWTO,   1, 
-        TTHR,   0, 
-        TTHM,   0, 
-        THTL,   0, 
-        CTDP,   0, 
+        TTHR,   1, 
+        TTHM,   1, 
+        THTL,   1, 
+        CTDP,   1, 
         NPST,   5, 
         CTMP,   8, 
         CTML,   8, 
@@ -7878,30 +7878,29 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                     Store (0x03, NPST)
                     Store (PSSP, PSED)
                     Notify (LID, 0x80)
-                    // Call to set TDP values.
-                    STDP();
+                    STDP()
                 }
             }
-//             Method (CMDW, 2, NotSerialized)
-//             {
-//                 Name (TEMP, One)
-//                 Name (RTEM, Zero)
-//                 While (TEMP)
-//                 {
-//                     Store (Zero, ECPC)
-//                     Store (ECPC, TEMP)
-//                 }
-//                 Store (One, ECPC)
-//                 Store (Arg0, ECMB)
-//                 Store (Arg1, EDTB)
-//                 Store (One, ECST)
-//                 Store (One, TEMP)
-//                 While (TEMP)
-//                 {
-//                     Store (ECST, TEMP)
-//                 }
-//                 Store (Zero, ECPC)
-//             }
+            Method (CMDW, 2, NotSerialized)
+            {
+                Name (TEMP, One)
+                Name (RTEM, Zero)
+                While (TEMP)
+                {
+                    Store (Zero, ECPC)
+                    Store (ECPC, TEMP)
+                }
+                Store (One, ECPC)
+                Store (Arg0, ECMB)
+                Store (Arg1, EDTB)
+                Store (One, ECST)
+                Store (One, TEMP)
+                While (TEMP)
+                {
+                    Store (ECST, TEMP)
+                }
+                Store (Zero, ECPC)
+            }
             OperationRegion (ECMP, SystemMemory, 0xFE0B0000, 0x1000)
             Field (ECMP, AnyAcc, Lock, Preserve)
             {
@@ -7928,7 +7927,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 BSTH,   8, 
                 PRDT,   8, 
                 PSSE,   8, 
-                CPTP,   0, 
+                CPTP,   8, 
                 SAID,   8, 
                 FANE,   1, 
                 CPUO,   1, 
@@ -8009,11 +8008,11 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Offset (0xBC2), 
                 PRTM,   16, 
                 Offset (0xD82), 
-                ECPC,   0, 
-                ECST,   0, 
+                ECPC,   1, 
+                ECST,   1, 
                 Offset (0xD8B), 
-                ECMB,   0, 
-                EDTB,   0, 
+                ECMB,   8, 
+                EDTB,   8, 
                 Offset (0xD8E)
             }
             OperationRegion (ECMM, SystemMemory, 0xFE0B0000, 0x1000)
@@ -8092,12 +8091,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 SDTM,   8, 
                 FSSN,   4, 
                 FANU,   4, 
-                PCVL,   0, 
+                PCVL,   6, 
                 SWTO,   1, 
-                TTHR,   0, 
-                TTHM,   0, 
-                THTL,   0, 
-                CTDP,   0, 
+                TTHR,   1, 
+                TTHM,   1, 
+                THTL,   1, 
+                CTDP,   1, 
                 NPST,   5, 
                 CTMP,   8, 
                 CTML,   8, 
@@ -8296,10 +8295,10 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
             {
                 Return (0x04)
             }
-//             Method (THRO, 1, NotSerialized)
-//             {
-//                 ATHR (Arg0)
-//             }
+            Method (THRO, 1, NotSerialized)
+            {
+                ATHR (Arg0)
+            }
             Method (CLCK, 1, NotSerialized)
             {
                 Return (Zero)
@@ -8870,20 +8869,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                     Store (0xAC, P80H)
                     AFN4 (One)
                     Store (Zero, ACST)
-                    //DPTC (0x05, 0x61A8)
-                    //DPTC (0x06, 0x61A8)
-                    //DPTC (0x07, 0x61A8)
-                    //DPTC (0x03, 0x5A)
                 }
                 Else
                 {
                     Store (0xDC, P80H)
                     AFN4 (0x02)
                     Store (One, ACST)
-                    //DPTC (0x05, 0x3A98)
-                    //DPTC (0x06, 0x61A8)
-                    //DPTC (0x07, 0x4E20)
-                    //DPTC (0x03, 0x50)
                 }
                 ALIB (One, XX00)
                 Return (Local0)
@@ -8954,35 +8945,35 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Return (Add (0x0AAC, Multiply (\_SB.PCI0.LPC0.EC0.CPTP, 0x0A)))
             }
         }
-//         ThermalZone (TSZ2)
-//         {
-//             Name (BOTP, Zero)
-//             Name (TZTP, Zero)
-//             Name (FFVO, Zero)
-//             Method (_HOT, 0, Serialized)
-//             {
-//                 Return (0x0E30)
-//             }
-//             Method (_TMP, 0, Serialized)
-//             {
-//                 Store (Or (FFAL, PDPN), Local1)
-//                 Store (Or (TZTP, BOTP), Local2)
-//                 Store (Or (TZTP, FFVO), Local3)
-//                 If (LOr (LOr (Local1, Local2), Local3))
-//                 {
-//                     Store (Zero, TZTP)
-//                     Store (Zero, BOTP)
-//                     Store (Zero, FFVO)
-//                     Return (0x0E30)
-//                 }
-//                 Else
-//                 {
-//                     Return (0x0B74)
-//                     Store (Zero, TZTP)
-//                     Store (Zero, BOTP)
-//                 }
-//             }
-//         }
+        ThermalZone (TSZ2)
+        {
+            Name (BOTP, Zero)
+            Name (TZTP, Zero)
+            Name (FFVO, Zero)
+            Method (_HOT, 0, Serialized)
+            {
+                Return (0x0E30)
+            }
+            Method (_TMP, 0, Serialized)
+            {
+                Store (Or (FFAL, PDPN), Local1)
+                Store (Or (TZTP, BOTP), Local2)
+                Store (Or (TZTP, FFVO), Local3)
+                If (LOr (LOr (Local1, Local2), Local3))
+                {
+                    Store (Zero, TZTP)
+                    Store (Zero, BOTP)
+                    Store (Zero, FFVO)
+                    Return (0x0E30)
+                }
+                Else
+                {
+                    Return (0x0B74)
+                    Store (Zero, TZTP)
+                    Store (Zero, BOTP)
+                }
+            }
+        }
     }
     Scope (_SB.PCI0.LPC0.EC0)
     {
@@ -9002,27 +8993,27 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
             Store (0x12, P80H)
             Notify (^^^GP17.VGA.LCD, 0x86)
         }
-//         Method (_Q13, 0, NotSerialized)
-//         {
-//             Store (0x13, P80H)
-//             If (ECON)
-//             {
-//                 Store (One, THSD)
-//                 Notify (\_TZ.TSZ0, 0x80)
-//             }
-//         }
-//         Method (_Q14, 0, NotSerialized)
-//         {
-//             Store (0x14, P80H)
-//             If (ECON)
-//             {
-//                 If (LNot (FANE))
-//                 {
-//                     Store (One, FFAL)
-//                 }
-//                 Notify (\_TZ.TSZ2, 0x80)
-//             }
-//         }
+        Method (_Q13, 0, NotSerialized)
+        {
+            Store (0x13, P80H)
+            If (ECON)
+            {
+                Store (One, THSD)
+                Notify (\_TZ.TSZ0, 0x80)
+            }
+        }
+        Method (_Q14, 0, NotSerialized)
+        {
+            Store (0x14, P80H)
+            If (ECON)
+            {
+                If (LNot (FANE))
+                {
+                    Store (One, FFAL)
+                }
+                Notify (\_TZ.TSZ2, 0x80)
+            }
+        }
         Method (_Q15, 0, NotSerialized)
         {
             Store (0x15, P80H)
@@ -9110,44 +9101,44 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
             Store (0x42, P80H)
             ^^^^WMID.ESDT ()
         }
-//         Method (_Q44, 0, NotSerialized)
-//         {
-//             Store (0x44, P80H)
-//             If (ECON)
-//             {
-//                 Store (One, THSD)
-//                 Store (One, \_TZ.TSZ2.BOTP)
-//                 Notify (\_TZ.TSZ2, 0x80)
-//             }
-//         }
-//         Method (_Q45, 0, NotSerialized)
-//         {
-//             Store (0x45, P80H)
-//             Store ("=====QUERY_45=====", Debug)
-//             If (ECON)
-//             {
-//                 Store (One, PDPN)
-//                 Notify (\_TZ.TSZ2, 0x80)
-//             }
-//         }
-//         Method (_Q49, 0, NotSerialized)
-//         {
-//             Store (0x49, P80H)
-//             If (ECON)
-//             {
-//                 CMDW (0x45, 0x45)
-//                 Store (One, \_TZ.TSZ2.TZTP)
-//                 Notify (\_TZ.TSZ2, 0x80)
-//             }
-//         }
-//         Method (_Q4B, 0, NotSerialized)
-//         {
-//             Store (0x4B, P80H)
-//             Store (One, ECSF)
-//             Store (One, CFBE)
-//         }
-          Method (_Q4D, 0, NotSerialized)
-          {
+        Method (_Q44, 0, NotSerialized)
+        {
+            Store (0x44, P80H)
+            If (ECON)
+            {
+                Store (One, THSD)
+                Store (One, \_TZ.TSZ2.BOTP)
+                Notify (\_TZ.TSZ2, 0x80)
+            }
+        }
+        Method (_Q45, 0, NotSerialized)
+        {
+            Store (0x45, P80H)
+            Store ("=====QUERY_45=====", Debug)
+            If (ECON)
+            {
+                Store (One, PDPN)
+                Notify (\_TZ.TSZ2, 0x80)
+            }
+        }
+        Method (_Q49, 0, NotSerialized)
+        {
+            Store (0x49, P80H)
+            If (ECON)
+            {
+                CMDW (0x45, 0x45)
+                Store (One, \_TZ.TSZ2.TZTP)
+                Notify (\_TZ.TSZ2, 0x80)
+            }
+        }
+        Method (_Q4B, 0, NotSerialized)
+        {
+            Store (0x4B, P80H)
+            Store (One, ECSF)
+            Store (One, CFBE)
+        }
+        Method (_Q4D, 0, NotSerialized)
+        {
             Store (0x4D, P80H)
             Store ("=====QUERY_4D=====", Debug)
             If (BMNC)
@@ -9163,15 +9154,15 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Notify (WMID, 0x80)
             }
         }
-//         Method (_Q4E, 0, NotSerialized)
-//         {
-//             Store (0x4E, P80H)
-//             If (ECON)
-//             {
-//                 Store (One, \_TZ.TSZ2.FFVO)
-//                 Notify (\_TZ.TSZ2, 0x80)
-//             }
-//         }
+        Method (_Q4E, 0, NotSerialized)
+        {
+            Store (0x4E, P80H)
+            If (ECON)
+            {
+                Store (One, \_TZ.TSZ2.FFVO)
+                Notify (\_TZ.TSZ2, 0x80)
+            }
+        }
 //         Method (_Q4F, 0, NotSerialized)
 //         {
 //             Store (0x4F, P80H)
@@ -9184,7 +9175,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
 //             DPTC (0x06, 0x61A8)
 //             DPTC (0x07, 0x4E20)
 //         }
-        Method  (ALIL, 1, NotSerialized)
+    Method  (ALIL, 1, NotSerialized)
         {
             // INFO: Avoid using the ALIB function to set TDP related values.
             CreateWordField(Arg0, 0x00, A110)
@@ -9248,7 +9239,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 ALIL (UTDP)
                 // Tctl (Temperature) Max 
                 Store (0x1F, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                Store (0x55, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                Store (0x5A, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
                 // VRM Current Limit
                 //Store (0x20, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
@@ -9259,9 +9250,9 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 //ALIL (UTDP)
                 // VRM Maximum Current Limit
-                //Store (0x22, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                //Store (0xD2F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
-                //ALIL (UTDP)
+                Store (0x22, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0xEA20, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
                 // VRM Soc Maximum Current Limit
                 //Store (0x23, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
                 //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
@@ -9278,6 +9269,46 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Store (0x26, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
                 Store (0x01, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
+                // SetSoftMaxGfxClk
+                Store(0x46, M255)
+                Store(0x44C, M256)
+                ALIL(UTDP)
+                // SetSoftMinGfxClk
+                Store(0x47, M255)
+                Store(0x44C, M256)
+                ALIL(UTDP)
+                // SetSoftMaxSocclkByFreq
+                Store(0x48, M255)
+                Store(0x2F5, M256)
+                ALIL(UTDP)
+                // SetSoftMinSocclkByFreq
+                Store(0x49, M255)
+                Store(0x2F5, M256)
+                ALIL(UTDP)
+                // SetSoftMaxFclkByFreq
+                Store(0x4A, M255)
+                Store(0x4B0, M256)
+                ALIL(UTDP)
+                // SetSoftMinFclkByFreq
+                Store(0x4B, M255)
+                Store(0x4B0, M256)
+                ALIL(UTDP)
+                // SetSoftMaxVcn
+                Store(0x4C, M255)
+                Store(0x3C00320, M256)
+                ALIL(UTDP)
+                // SetSoftMinVcn
+                Store(0x4D, M255)
+                Store(0x3C00320, M256)
+                ALIL(UTDP)
+                // SetSoftMaxLclk
+                Store(0x4E, M255)
+                Store(0x1B4, M256)
+                ALIL(UTDP)
+                // SetSoftMinLclk
+                Store (0x4F, M255)
+                Store(0x1B4, M256)
+                ALIL(UTDP)
            }
-       }
-  }
+    }
+}
