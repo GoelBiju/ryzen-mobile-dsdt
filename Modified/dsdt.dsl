@@ -9126,7 +9126,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
             Store (0x49, P80H)
             If (ECON)
             {
-                CMDW (0x45, 0x45)
+                CMDW (0x49, 0x49)
                 Store (One, \_TZ.TSZ2.TZTP)
                 Notify (\_TZ.TSZ2, 0x80)
             }
@@ -9219,7 +9219,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Store (0x07, M254) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M254 */
                 // Sustained Power Limit (STAPM)
                 Store (0x1A, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                Store (0x61A8, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                Store (0x55F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
                 // Fast PPT Limit
                 Store (0x1B, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
@@ -9227,7 +9227,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 ALIL (UTDP)
                 // Slow PPT Limit
                 Store (0x1C, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                Store (0x61A8, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                Store (0x6978, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
                 // Slow PPT Time Constant
                 Store (0x1D, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
@@ -9242,21 +9242,21 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Store (0x5A, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
                 // VRM Current Limit
-                //Store (0x20, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                //Store (0xB3B0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
-                //ALIL (UTDP)
-                // VRM Soc Current Limit
-                //Store (0x21, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
-                //ALIL (UTDP)
-                // VRM Maximum Current Limit
-                Store (0x22, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                Store (0xEA20, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                Store (0x20, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0xB3B0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
-                // VRM Soc Maximum Current Limit
-                //Store (0x23, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
-                //Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                // VRM Soc Current Limit
+                Store (0x21, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
+                // VRM Maximum Current Limit
+                //Store (0x22, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                //Store (0xD2F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 //ALIL (UTDP)
+                // VRM Soc Maximum Current Limit
+                Store (0x23, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
+                Store (0x2134, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
+                ALIL (UTDP)
                 // PSI0 Current Limit
                 //Store (0x24, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
                 //Store (0xD2F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
@@ -9270,20 +9270,20 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 Store (0x01, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
                 ALIL (UTDP)
                 // SetSoftMaxGfxClk
-                Store(0x46, M255)
-                Store(0x44C, M256)
-                ALIL(UTDP)
+                //Store(0x46, M255)
+                //Store(0x44C, M256)
+                //ALIL(UTDP)
                 // SetSoftMinGfxClk
-                Store(0x47, M255)
-                Store(0x44C, M256)
-                ALIL(UTDP)
+                //Store(0x47, M255)
+                //Store(0x44C, M256)
+                //ALIL(UTDP)
                 // SetSoftMaxSocclkByFreq
                 Store(0x48, M255)
                 Store(0x2F5, M256)
                 ALIL(UTDP)
                 // SetSoftMinSocclkByFreq
                 Store(0x49, M255)
-                Store(0x2F5, M256)
+                Store(0xC8, M256)
                 ALIL(UTDP)
                 // SetSoftMaxFclkByFreq
                 Store(0x4A, M255)
@@ -9291,7 +9291,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 ALIL(UTDP)
                 // SetSoftMinFclkByFreq
                 Store(0x4B, M255)
-                Store(0x4B0, M256)
+                Store(0x190, M256)
                 ALIL(UTDP)
                 // SetSoftMaxVcn
                 Store(0x4C, M255)
@@ -9299,7 +9299,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 ALIL(UTDP)
                 // SetSoftMinVcn
                 Store(0x4D, M255)
-                Store(0x3C00320, M256)
+                Store(0x190012C, M256)
                 ALIL(UTDP)
                 // SetSoftMaxLclk
                 Store(0x4E, M255)
@@ -9307,7 +9307,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 ALIL(UTDP)
                 // SetSoftMinLclk
                 Store (0x4F, M255)
-                Store(0x1B4, M256)
+                Store(0x64, M256)
                 ALIL(UTDP)
            }
     }
