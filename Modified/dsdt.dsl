@@ -9256,7 +9256,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 1, "HPQOEM", "84AE    ", 0x00040000)
                 // VRM Soc Maximum Current Limit
                 Store (0x23, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
                 Store (0xAFC8, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
-                //ALIL (UTDP)
+                ALIL (UTDP)
                 // PSI0 Current Limit
                 //Store (0x24, M255) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M255 */
                 //Store (0xD2F0, M256) /* \_SB_.PCI0.LPC0.EC0_.CTDP.M256 */
